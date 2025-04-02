@@ -1,28 +1,22 @@
-// weather.js
-document.addEventListener('DOMContentLoaded', function () {
-    const weatherContainer = document.getElementById('weather-container');
+// Function to validate and store digits
+function submitValue() {
+    const inputElement = document.getElementById('digitInput');
+    const displayElement = document.getElementById('displayValue');
 
-    // Replace with your own API key and city
-    const apiKey = '64081c6edb07a9de4af7a5b173ea6d59';
-    const city = 'London';
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    // Extract the value from the input field
+    let inputValue = inputElement.value;
 
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.cod === 200) {
-                const weatherDescription = data.weather[0].description;
-                const temperature = data.main.temp;
-                weatherContainer.innerHTML = `
-                    <h2>${city}</h2>
-                    <p>${weatherDescription}</p>
-                    <p>Temperature: ${temperature}°C</p>
-                `;
-            } else {
-                weatherContainer.innerHTML = `<p>Unable to fetch weather data: ${data.message}</p>`;
-            }
-        })
-        .catch(error => {
-            weatherContainer.innerHTML = `<p>Error fetching weather data: ${error.message}</p>`;
-        });
-});
+    // Regular expression to allow only digits
+    const digitOnlyRegex = /^\d*$/;
+
+    // Validate input and store it if valid
+    if (digitOnlyRegex.test(inputValue)) {
+        // If input is valid, store its value in a variable
+        let storedValue = inputValue;
+        displayElement.textContent = `Stored Value: ${storedValue}`;
+    } else {
+        // If invalid, clear the input field
+        inputElement.value = '';
+        displayElement.textContent = 'Please enter digits only';
+    }
+}
